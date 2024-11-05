@@ -26,8 +26,8 @@ const App = () => {
     if (user) {
       setCurrentUser(user);
       console.log("Current User:", user);
-      //setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      //setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
 
     EventBus.on("logout", () => {
