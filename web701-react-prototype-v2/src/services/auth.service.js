@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode'
 
 const API_URL = "http://localhost:8081/api/auth/";
 
@@ -18,8 +19,12 @@ const login = (username, password) => {
     })
     .then((response) => {
       console.log("Login response:", response.data);
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+
+      if (response.data.token) {
+        console.log("Token:", response.data.token);
+        const decodedToken = jwtDecode(response.data.token);
+        console.log("Decoded token:", decodedToken);
+        localStorage.setItem("user", JSON.stringify(decodedToken));
         console.log("User stored in localStorage:", localStorage.getItem("user"));
       }
 
