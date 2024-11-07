@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 
 const BoardUser = () => {
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     UserService.getUserBoard().then(
@@ -28,10 +29,15 @@ const BoardUser = () => {
     );
   }, []);
 
+  const navigateToProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <div className="container">
       <header className="jumbotron">
         <h3>{content}</h3>
+        <button onClick={navigateToProfile}>Go to Profile</button>
       </header>
     </div>
   );
