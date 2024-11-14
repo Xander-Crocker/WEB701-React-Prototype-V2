@@ -1,6 +1,6 @@
 ## React JWT prototype v2
 
-Requires Node.js version 16.16.0
+Requires Node.js version 16.16.0 (Refactor)
 
 ### Project setup
 
