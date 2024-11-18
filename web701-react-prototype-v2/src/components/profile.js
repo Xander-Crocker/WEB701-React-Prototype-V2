@@ -1,9 +1,12 @@
 import React from "react";
 import AuthService from "../services/auth.service";
 
+// Profile component
 const Profile = () => {
+  // Get the current user from AuthService
   const currentUser = AuthService.getCurrentUser();
 
+  // If no user is logged in, display a message
   if (!currentUser) {
     return (
       <div className="container">
@@ -14,6 +17,7 @@ const Profile = () => {
     );
   }
 
+  // If a user is logged in, display their profile information
   return (
     <div className="container">
       <header className="jumbotron">

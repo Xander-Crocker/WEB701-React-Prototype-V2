@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 import AuthService from "../services/auth.service";
 
+// Validation function to check if a field is filled
 const required = (value) => {
   if (!value) {
     return (
@@ -16,34 +16,40 @@ const required = (value) => {
   }
 };
 
+// Login component
 const Login = () => {
-  let navigate = useNavigate();
+  let navigate = useNavigate(); // Hook to navigate programmatically
 
-  const form = useRef();
-  const checkBtn = useRef();
+  const form = useRef(); // Reference to the form
+  const checkBtn = useRef(); // Reference to the check button
 
+  // State variables for form fields and status messages
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Handler for username input change
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
   };
 
+  // Handler for password input change
   const onChangePassword = (e) => {
     const password = e.target.value;
     setPassword(password);
   };
 
+  // Handler for form submission
   const handleLogin = (e) => {
     e.preventDefault();
 
     setMessage("");
     setLoading(true);
 
-    form.current.validateAll();
+    // Validate all fields
+    form.current.validateAll(); 
 
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import AuthService from "./services/auth.service";
+import EventBus from "./common/EventBus";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -13,31 +13,32 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 
-import EventBus from "./common/EventBus";
-
 const App = () => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false); // State to show/hide moderator board
+  const [showAdminBoard, setShowAdminBoard] = useState(false); // State to show/hide admin board
+  const [currentUser, setCurrentUser] = useState(undefined); // State for the current user
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    const user = AuthService.getCurrentUser(); // Get the current user
 
     if (user) {
-      setCurrentUser(user);
-      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setCurrentUser(user); // Set the current user
+      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR")); // Show moderator board if user has moderator role
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN")); // Show admin board if user has admin role
     }
 
+    // Listen for logout event
     EventBus.on("logout", () => {
       logOut();
     });
 
+    // Cleanup the event listener on component unmount
     return () => {
       EventBus.remove("logout");
     };
   }, []);
 
+  // Function to log out the user
   const logOut = () => {
     AuthService.logout();
     setShowModeratorBoard(false);
@@ -45,6 +46,7 @@ const App = () => {
     setCurrentUser(undefined);
   };
 
+  // Navigation bar
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -113,6 +115,7 @@ const App = () => {
         )}
       </nav>
 
+      {/* Route paths */}
       <div className="container mt-3">
         <Routes>
           <Route path="/" element={<Home/>} />
