@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode'
 
 const API_URL = "http://localhost:8081/api/auth/";
 
+// Function to register a new user
 const register = (username, email, password) => {
   return axios.post(API_URL + "signup", {
     username,
@@ -11,6 +12,7 @@ const register = (username, email, password) => {
   });
 };
 
+// Function to login a user
 const login = (username, password) => {
   return axios
     .post(API_URL + "signin", {
@@ -32,10 +34,12 @@ const login = (username, password) => {
     });
 };
 
+// Function to logout a user
 const logout = () => {
   localStorage.removeItem("user");
 };
 
+// Function to get the current logged-in user
 const getCurrentUser = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
   return currentUser;

@@ -3,9 +3,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
 import AuthService from "../services/auth.service";
 
+// Validation function to check if a field is filled
 const required = (value) => {
   if (!value) {
     return (
@@ -16,6 +16,7 @@ const required = (value) => {
   }
 };
 
+// Validation function to check if the email is valid
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
@@ -26,6 +27,7 @@ const validEmail = (value) => {
   }
 };
 
+// Validation function to check if the username length is between 3 and 20 characters
 const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
@@ -46,39 +48,46 @@ const vpassword = (value) => {
   }
 };
 
+// Register component
 const Register = () => {
-  const form = useRef();
-  const checkBtn = useRef();
+  const form = useRef(); // Reference to the form
+  const checkBtn = useRef(); // Reference to the check button
 
+  // State variables for form fields and status messages
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Handler for username input change
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
   };
 
+  // Handler for email input change
   const onChangeEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
   };
 
+  // Handler for password input change
   const onChangePassword = (e) => {
     const password = e.target.value;
     setPassword(password);
   };
 
+  // Handler for form submission
   const handleRegister = (e) => {
     e.preventDefault();
 
     setMessage("");
     setSuccessful(false);
 
-    form.current.validateAll();
+    form.current.validateAll(); // Validate all fields
 
+    // Check if there are no validation errors
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(username, email, password).then(
         (response) => {
